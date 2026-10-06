@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RED ARCHIVE — Mostruário Histórico</title>
+
+<style>
+    :root {
+        --bg: #080b09;
+        --panel: #101512;
+        --panel2: #151b17;
+        --red: #b83232;
+        --red2: #e04747;
+        --green: #87977f;
+        --text: #e7ebe5;
+        --muted: #8f9991;
+        --border: #29312b;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+            radial-gradient(circle at top right, #172019 0, transparent 35%),
+            linear-gradient(135deg, #070907, #0b100d);
+        color: var(--text);
+        min-height: 100vh;
+    }
+
+    header {
+        border-bottom: 1px solid var(--border);
+        background: rgba(5, 7, 6, .92);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(10px);
+    }
+
+    .header-inner {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .logo-mark {
+        width: 42px;
+        height: 42px;
+        background: var(--red);
+        display: grid;
+        place-items: center;
+        font-weight: bold;
+        clip-path: polygon(50% 0, 100% 25%, 85% 100%, 15% 100%, 0 25%);
+    }
+
+    .logo h1 {
+        font-size: 20px;
+        letter-spacing: 3px;
+    }
+
+    .logo span {
+        color: var(--muted);
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .badge {
+        border: 1px solid #4b554c;
+        padding: 8px 12px;
+        color: #b6c0b7;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .hero {
+        max-width: 1200px;
+        margin: auto;
+        padding: 70px 20px 40px;
+    }
+
+    .hero small {
+        color: var(--red2);
+        letter-spacing: 4px;
+        font-weight: bold;
+    }
+
+    .hero h2 {
+        font-size: clamp(38px, 7vw, 76px);
+        line-height: .95;
+        max-width: 850px;
+        margin: 15px 0;
+        text-transform: uppercase;
+    }
+
+    .hero p {
+        color: var(--muted);
+        max-width: 650px;
+        line-height: 1.7;
+    }
+
+    .notice {
+        margin-top: 25px;
+        border-left: 3px solid var(--red);
+        background: rgba(184, 50, 50, .08);
+        padding: 15px;
+        color: #bfc7c0;
+        font-size: 13px;
+    }
+
+    .controls {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .search {
+        flex: 1;
+        min-width: 230px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        color: white;
+        padding: 14px 16px;
+        outline: none;
+    }
+
+    .search:focus {
+        border-color: var(--red);
+    }
+
+    .filter {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 14px 16px;
+        cursor: pointer;
+    }
+
+    .catalog {
+        max-width: 1200px;
+        margin: 30px auto 80px;
+        padding: 0 20px;
+    }
+
+    .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .section-title h3 {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    #count {
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+    }
+
+    .card {
+        background: linear-gradient(145deg, var(--panel2), #0d110f);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        transition: .25s ease;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        border-color: #59645a;
+        box-shadow: 0 15px 35px rgba(0,0,0,.35);
+    }
+
+    .card-image {
+        height: 190px;
+        background:
+            linear-gradient(135deg, rgba(0,0,0,.2), rgba(0,0,0,.7)),
+            var(--image);
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: flex-end;
+        padding: 15px;
+    }
+
+    .category {
+        background: var(--red);
+        padding: 6px 9px;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+
+    .card-body {
+        padding: 18px;
+    }
+
+    .card-body h4 {
+        font-size: 21px;
+        margin-bottom: 7px;
+    }
+
+    .country {
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 15px;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .stat {
+        padding: 11px 5px;
+    }
+
+    .stat:nth-child(odd) {
+        border-right: 1px solid var(--border);
+    }
+
+    .stat small {
+        display: block;
+        color: #687269;
+        font-size: 9px;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .stat strong {
+        font-size: 12px;
+    }
+
+    .details {
+        padding-top: 15px;
+        color: #aeb7af;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    /* Modal */
+
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.78);
+        display: none;
+        place-items: center;
+        padding: 20px;
+        z-index: 100;
+    }
+
+    .modal.active {
+        display: grid;
+    }
+
+    .modal-box {
+        width: min(850px, 100%);
+        max-height: 90vh;
+        overflow-y: auto;
+        background: #101411;
+        border: 1px solid #39433b;
+        box-shadow: 0 25px 80px #000;
+    }
+
+    .modal-top {
+        height: 260px;
+        background: var(--modal-image) center/cover;
+        position: relative;
+    }
+
+    .modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(transparent, #101411);
+    }
+
+    .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        width: 38px;
+        height: 38px;
+        border: 1px solid #6d756e;
+        background: #090b09cc;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    .modal-content {
+        padding: 25px;
+        margin-top: -60px;
+        position: relative;
+    }
+
+    .modal-content h2 {
+        font-size: 34px;
+        margin-bottom: 5px;
+    }
+
+    .modal-content .description {
+        color: #aeb7af;
+        line-height: 1.7;
+        margin: 20px 0;
+    }
+
+    .technical {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        border-top: 1px solid var(--border);
+        border-left: 1px solid var(--border);
+    }
+
+    .technical div {
+        padding: 14px;
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .technical div strong { line-height: 1.35; }
+
+    .technical span {
+        display: block;
+        color: #687269;
+        font-size: 10px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .detail-note {
+        margin: 0 25px 25px;
+        padding: 12px 14px;
+        border-left: 3px solid var(--red);
+        background: rgba(184,50,50,.07);
+        color: #89948b;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    footer {
+        border-top: 1px solid var(--border);
+        padding: 30px 20px;
+        text-align: center;
+        color: #59625b;
+        font-size: 11px;
+        letter-spacing: 1px;
+    }
+
+    @media(max-width: 600px) {
+        .header-inner {
+            align-items: flex-start;
+        }
+
+        .badge {
+            display: none;
+        }
+
+        .hero {
+            padding-top: 45px;
+        }
+
+        .card-image {
+            height: 160px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="logo">
+            <div class="logo-mark">RA</div>
+            <div>
+                <h1>RED ARCHIVE</h1>
+                <span>HISTORICAL MILITARY DATABASE</span>
+            </div>
+        </div>
+
+        <div class="badge">Arquivo educacional</div>
+    </div>
+</header>
+
+<main>
+
+<section class="hero">
+    <small>ARQUIVO 1940 — PRESENTE</small>
+
+    <h2>Máquinas que marcaram a história</h2>
+
+    <p>
+        Mostruário digital dedicado a armas, veículos e equipamentos do Exército Vermelho durante a Segunda Guerra Mundial.
+    </p>
+
+    <div class="notice">
+        Este projeto é exclusivamente informativo e histórico.
+        Não contém venda, compra, preços ou instruções de utilização.
+    </div>
+</section>
+
+<div class="controls">
+    <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="Pesquisar no arquivo..."
+    >
+
+    <select id="category" class="filter">
+        <option value="all">Todas as categorias</option>
+        <option value="armas">Armas e artilharia</option>
+        <option value="veiculos">Veículos</option>
+        <option value="equipamentos">Acessórios e equipamentos</option>
+    </select>
+</div>
+
+<section class="catalog">
+
+    <div class="section-title">
+        <h3>Catálogo</h3>
+        <span id="count"></span>
+    </div>
+
+    <div id="grid" class="grid"></div>
+
+</section>
+
+</main>
+
+<footer>
+    RED ARCHIVE © 2026 — PROJETO HISTÓRICO / EDUCACIONAL · Imagens de referência: Wikimedia Commons / Wikipedia
+</footer>
+
+<div id="modal" class="modal">
+    <div class="modal-box">
+
+        <div id="modalTop" class="modal-top">
+            <div class="modal-overlay"></div>
+            <button class="close" onclick="closeModal()">×</button>
+        </div>
+
+        <div class="modal-content">
+            <h2 id="modalTitle"></h2>
+            <div id="modalCountry" class="country"></div>
+
+            <p id="modalDescription" class="description"></p>
+
+            <div class="detail-note">Os dados de funcionamento são apresentados em nível histórico e descritivo; o catálogo não é um manual de operação.</div>
+
+            <div id="technical" class="technical"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+const equipment = [
+{
+    "name": "Mosin-Nagant M1891/30",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1941–1945",
+    "type": "Fuzil de ferrolho",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Mosin-remove-bg.png",
+    "description": "Fuzil de ferrolho padrão da infantaria soviética.",
+    "specs": {
+        "Calibre": "7,62×54 mmR",
+        "Uso histórico": "Fuzil de infantaria / tiro de precisão",
+        "Funcionamento (resumo)": "Ferrolho manual; o ciclo entre disparos é feito pelo conjunto do ferrolho.",
+        "Capacidade / carga": "5 cartuchos",
+        "Peso / dimensão relevante": "≈ 4,0 kg",
+        "Alcance / mobilidade": "Alcance efetivo dependente da versão e munição",
+        "Ano / modelo": "1930 (versão M91/30)",
+        "Detalhe importante": "Foi o principal fuzil soviético de infantaria durante grande parte da Segunda Guerra Mundial.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "PPSh-41",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1941",
+    "type": "Submetralhadora",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/01/PPSh-41_from_soviet.jpg",
+    "description": "Submetralhadora icônica com tambor de 71 cartuchos, amplamente usada na Frente Oriental.",
+    "specs": {
+        "Calibre": "7,62×25 mm Tokarev",
+        "Uso histórico": "Submetralhadora para combate de curta distância",
+        "Funcionamento (resumo)": "Funcionamento por recuo do ferrolho, em regime automático/semiautomático conforme configuração.",
+        "Capacidade / carga": "71 (tambor) ou 35 (carregador)",
+        "Peso / dimensão relevante": "≈ 3,6 kg vazio",
+        "Alcance / mobilidade": "Curto a médio alcance",
+        "Ano / modelo": "1941",
+        "Detalhe importante": "Destacou-se pela simplicidade de produção e enorme quantidade fabricada.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "PPS-43",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1943",
+    "type": "Submetralhadora",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/7/7c/PPS-43_noBG.png",
+    "description": "Submetralhadora leve de estampa metálica, criada durante o cerco a Leningrado.",
+    "specs": {
+        "Calibre": "7,62×25 mm Tokarev",
+        "Uso histórico": "Submetralhadora compacta para infantaria e tripulações",
+        "Funcionamento (resumo)": "Sistema de recuo simples com ferrolho aberto; coronha metálica rebatível.",
+        "Capacidade / carga": "35 cartuchos",
+        "Peso / dimensão relevante": "≈ 3,0 kg",
+        "Alcance / mobilidade": "Curto alcance",
+        "Ano / modelo": "1943",
+        "Detalhe importante": "Desenvolvida em Leningrado, priorizando baixo peso e fabricação rápida.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "SVT-40",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1940",
+    "type": "Fuzil semiautomático",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Tokarew_SWT40_noBG.png",
+    "description": "Fuzil semiautomático de 10 tiros.",
+    "specs": {
+        "Calibre": "7,62×54 mmR",
+        "Uso histórico": "Fuzil semiautomático de infantaria",
+        "Funcionamento (resumo)": "Aproveita gases do disparo para movimentar o mecanismo e preparar o próximo tiro.",
+        "Capacidade / carga": "10 cartuchos",
+        "Peso / dimensão relevante": "≈ 3,8 kg",
+        "Alcance / mobilidade": "Médio alcance",
+        "Ano / modelo": "1940",
+        "Detalhe importante": "Foi um dos principais esforços soviéticos para aumentar o poder de fogo individual da infantaria.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Tokarev TT-33",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1933",
+    "type": "Pistola semiautomática",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Tokarev_TT33_%286825679152%29.jpg",
+    "description": "Pistola semiautomática padrão dos oficiais.",
+    "specs": {
+        "Calibre": "7,62×25 mm Tokarev",
+        "Uso histórico": "Pistola de serviço",
+        "Funcionamento (resumo)": "Semiautomática, com mecanismo de recuo curto e carregador destacável.",
+        "Capacidade / carga": "8 cartuchos",
+        "Peso / dimensão relevante": "≈ 0,85 kg",
+        "Alcance / mobilidade": "Curto alcance",
+        "Ano / modelo": "1933",
+        "Detalhe importante": "Pistola de serviço soviética baseada em projeto Tokarev, amplamente empregada na guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Nagant M1895",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1895",
+    "type": "Revólver",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Nagant_Revolver.jpg",
+    "description": "Revólver de 7 tiros com sistema de vedação de gás.",
+    "specs": {
+        "Calibre": "7,62×38 mmR",
+        "Uso histórico": "Revólver de serviço",
+        "Funcionamento (resumo)": "Ação de revólver; o cilindro apresenta avanço e vedação particular durante o disparo.",
+        "Capacidade / carga": "7 cartuchos",
+        "Peso / dimensão relevante": "≈ 0,8 kg",
+        "Alcance / mobilidade": "Curto alcance",
+        "Ano / modelo": "1895",
+        "Detalhe importante": "Projeto do período imperial russo que continuou em serviço soviético.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "DP-27 (DP-28)",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1927",
+    "type": "Metralhadora leve",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/1/13/Machine_gun_DP_MON.jpg",
+    "description": "Metralhadora leve de infantaria com carregador de disco \\\"prato\\\".",
+    "specs": {
+        "Calibre": "7,62×54 mmR",
+        "Uso histórico": "Metralhadora leve de apoio de esquadra",
+        "Funcionamento (resumo)": "Operação por gases com ferrolho; alimentação pelo carregador circular superior.",
+        "Capacidade / carga": "47 cartuchos",
+        "Peso / dimensão relevante": "≈ 9,1 kg",
+        "Alcance / mobilidade": "Médio alcance",
+        "Ano / modelo": "1927",
+        "Detalhe importante": "Conhecida pelo característico carregador em forma de disco.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Maxim M1910",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1910",
+    "type": "Metralhadora pesada",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Maxim_gun%2C_Georgian_national_museum.JPG",
+    "description": "Metralhadora pesada com resfriamento a água sobre roda.",
+    "specs": {
+        "Calibre": "7,62×54 mmR",
+        "Uso histórico": "Metralhadora pesada de apoio",
+        "Funcionamento (resumo)": "Mecanismo de recuo com alimentação por fita e camisa de água para resfriamento.",
+        "Capacidade / carga": "Fita de munição",
+        "Peso / dimensão relevante": "≈ 64 kg com conjunto de reparo/rodas",
+        "Alcance / mobilidade": "Longo alcance de apoio",
+        "Ano / modelo": "1910",
+        "Detalhe importante": "Derivação russa do sistema Maxim, muito importante para o apoio de fogo soviético.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "DShK 1938",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1938",
+    "type": "Metralhadora pesada",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/MITRALOZ_12.7_mm_KA.jpg",
+    "description": "Metralhadora pesada calibre 12,7 mm para suporte terrestre e antiaéreo.",
+    "specs": {
+        "Calibre": "12,7×108 mm",
+        "Uso histórico": "Metralhadora pesada terrestre e antiaérea",
+        "Funcionamento (resumo)": "Operação por gases e alimentação por fita; montagens podiam atender funções terrestres ou antiaéreas.",
+        "Capacidade / carga": "Fita de munição",
+        "Peso / dimensão relevante": "≈ 34 kg (arma, sem montagem)",
+        "Alcance / mobilidade": "Longo alcance de apoio",
+        "Ano / modelo": "1938",
+        "Detalhe importante": "Tornou-se uma das principais metralhadoras pesadas soviéticas.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "PTRD-41",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1941",
+    "type": "Fuzil antitanque",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/d/d3/PTRD_rifle_at_Great_Patriotic_War_museum_in_Smolensk.jpg",
+    "description": "Fuzil antitanque monotiro calibre 14,5 mm.",
+    "specs": {
+        "Calibre": "14,5×114 mm",
+        "Uso histórico": "Arma antitanque individual",
+        "Funcionamento (resumo)": "Fuzil de grande calibre com ação de ferrolho e mecanismo de abertura associado ao recuo.",
+        "Capacidade / carga": "1 cartucho",
+        "Peso / dimensão relevante": "≈ 17,3 kg",
+        "Alcance / mobilidade": "Antiblindagem em curta/média distância",
+        "Ano / modelo": "1941",
+        "Detalhe importante": "Projetado para enfrentar blindados leves e pontos vulneráveis de veículos.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "PTRS-41",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1941",
+    "type": "Fuzil antitanque",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/a/aa/PTRS_41.jpg",
+    "description": "Fuzil antitanque semiautomático de 5 tiros.",
+    "specs": {
+        "Calibre": "14,5×114 mm",
+        "Uso histórico": "Arma antitanque semiautomática",
+        "Funcionamento (resumo)": "Aproveita gases do disparo para operar o mecanismo semiautomático.",
+        "Capacidade / carga": "5 cartuchos",
+        "Peso / dimensão relevante": "≈ 20,9 kg",
+        "Alcance / mobilidade": "Antiblindagem em curta/média distância",
+        "Ano / modelo": "1941",
+        "Detalhe importante": "Mais pesado e complexo que o PTRD, mas oferecia maior cadência potencial.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Granada F-1",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1920s/1940s",
+    "type": "Granada de fragmentação",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0d/F1_grenade_DoD.jpg",
+    "description": "Granada de fragmentação defensiva (apelidada de Limonka).",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Granada de fragmentação defensiva",
+        "Funcionamento (resumo)": "Artefato explosivo de fragmentação acionado por espoleta; a carcaça produz fragmentos.",
+        "Capacidade / carga": "1 unidade",
+        "Peso / dimensão relevante": "≈ 0,6 kg",
+        "Alcance / mobilidade": "Lançamento manual; alcance varia com a situação",
+        "Ano / modelo": "Modelo de origem anterior à guerra",
+        "Detalhe importante": "A forma externa deu origem ao apelido Limonka (limão).",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Granada RGD-33",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1933",
+    "type": "Granada de mão",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/e/eb/%D0%A0%D0%93%D0%94-33.jpg",
+    "description": "Granada de mão ofensiva/defensiva com cabo de madeira.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Granada de mão de emprego geral",
+        "Funcionamento (resumo)": "Granada com corpo explosivo e espoleta, podendo usar configuração com camisa de fragmentação.",
+        "Capacidade / carga": "1 unidade",
+        "Peso / dimensão relevante": "≈ 0,5 kg",
+        "Alcance / mobilidade": "Lançamento manual",
+        "Ano / modelo": "1933",
+        "Detalhe importante": "Projeto soviético complexo para sua época, usado durante a primeira metade da guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Granada RPG-43",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1943",
+    "type": "Granada antitanque",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/1/19/Kim_Shin-jo_weapons_RPG43_%281%29.JPG",
+    "description": "Granada de mão antitanque com carga moldada (HEAT).",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Granada antitanque",
+        "Funcionamento (resumo)": "Carga explosiva moldada projetada para concentrar o efeito sobre blindagem.",
+        "Capacidade / carga": "1 unidade",
+        "Peso / dimensão relevante": "≈ 1,2 kg",
+        "Alcance / mobilidade": "Lançamento manual",
+        "Ano / modelo": "1943",
+        "Detalhe importante": "Representou a evolução soviética das granadas antitanque de mão durante a guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Lança-chamas ROKS-3",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1942",
+    "type": "Lança-chamas portátil",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Finnish_soldier_with_a_ROKS-3_flamethrower_SA-kuva_131383.jpg",
+    "description": "Lança-chamas portátil projetado para se parecer com um fuzil comum.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Lança-chamas portátil",
+        "Funcionamento (resumo)": "Reservatório pressurizado impulsiona combustível inflamável por um tubo projetor.",
+        "Capacidade / carga": "Carga de combustível",
+        "Peso / dimensão relevante": "≈ 23 kg carregado",
+        "Alcance / mobilidade": "Curto alcance",
+        "Ano / modelo": "1942",
+        "Detalhe importante": "O conjunto foi concebido para ter aparência semelhante à de um fuzil e reduzir sua identificação imediata.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Canhão Antitanque 45 mm (M-42)",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1942",
+    "type": "Canhão antitanque",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Anti-tank_gun_45mm_m1937_parola_1.jpg",
+    "description": "Peça leve de artilharia antitanque de infantaria.",
+    "specs": {
+        "Calibre": "45 mm",
+        "Uso histórico": "Artilharia antitanque",
+        "Funcionamento (resumo)": "Canhão rebocado dispara projéteis de artilharia por tubo raiado.",
+        "Capacidade / carga": "Munição unitária; peças transportadas separadamente",
+        "Peso / dimensão relevante": "≈ 625 kg",
+        "Alcance / mobilidade": "Vários quilômetros como peça de artilharia",
+        "Ano / modelo": "1942",
+        "Detalhe importante": "Versão modernizada do canhão soviético de 45 mm, leve e muito numerosa.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Canhão Divisional ZiS-3 (76 mm)",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1942",
+    "type": "Canhão divisional",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/a/ac/76_mm_divisional_gun_M1942_%28ZiS-3%29_001.jpg",
+    "description": "Uma das peças de artilharia mais produzidas do conflito.",
+    "specs": {
+        "Calibre": "76,2 mm",
+        "Uso histórico": "Artilharia divisional / antitanque secundária",
+        "Funcionamento (resumo)": "Canhão rebocado de tubo raiado; empregado com diferentes tipos de munição.",
+        "Capacidade / carga": "Munição unitária",
+        "Peso / dimensão relevante": "≈ 1.116 kg em posição",
+        "Alcance / mobilidade": "Artilharia de médio/longo alcance",
+        "Ano / modelo": "1942",
+        "Detalhe importante": "Uma das peças de artilharia soviéticas mais produzidas da Segunda Guerra Mundial.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Obuseiro M-30 (122 mm)",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1938",
+    "type": "Obuseiro",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/f/f1/VDVHistorymuseum-21.jpg",
+    "description": "Artilharia de campanha pesada para suporte de longo alcance.",
+    "specs": {
+        "Calibre": "122 mm",
+        "Uso histórico": "Obuseiro de campanha",
+        "Funcionamento (resumo)": "Peça rebocada de tiro indireto, projetada para lançar projéteis em trajetórias elevadas.",
+        "Capacidade / carga": "Munição separada",
+        "Peso / dimensão relevante": "≈ 2.450 kg",
+        "Alcance / mobilidade": "Artilharia de médio alcance",
+        "Ano / modelo": "1938",
+        "Detalhe importante": "Permaneceu importante no Exército Vermelho durante e depois da guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Morteiro 82-BM-37 (82 mm)",
+    "category": "armas",
+    "country": "URSS",
+    "year": "1937",
+    "type": "Morteiro médio",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/49/Zagan_82_mm_mo%C5%BAdzierz_wz_37.jpg",
+    "description": "Morteiro médio de infantaria.",
+    "specs": {
+        "Calibre": "82 mm",
+        "Uso histórico": "Apoio de fogo de infantaria",
+        "Funcionamento (resumo)": "Morteiro de alma lisa que lança bombas em trajetória elevada.",
+        "Capacidade / carga": "Munição individual",
+        "Peso / dimensão relevante": "≈ 56 kg (conjunto)",
+        "Alcance / mobilidade": "Médio alcance para morteiro",
+        "Ano / modelo": "1937",
+        "Detalhe importante": "Um dos principais morteiros soviéticos de 82 mm da guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "T-34/76",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1940",
+    "type": "Tanque médio",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Tank_T-34.JPG",
+    "description": "Tanque médio fundamental para a resistência e contraofensiva soviética.",
+    "specs": {
+        "Calibre": "Canhão de 76,2 mm; metralhadoras 7,62 mm",
+        "Uso histórico": "Tanque médio de combate",
+        "Funcionamento (resumo)": "Motor diesel movimenta esteiras; torre abriga o armamento principal e parte da tripulação.",
+        "Capacidade / carga": "Depende da variante e munição",
+        "Peso / dimensão relevante": "≈ 26–30 t",
+        "Alcance / mobilidade": "Autonomia e velocidade variam por versão",
+        "Ano / modelo": "1940–1944",
+        "Detalhe importante": "Um dos veículos blindados mais influentes da Segunda Guerra Mundial.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "T-34/85",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1944",
+    "type": "Tanque médio",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/T34-85.png",
+    "description": "Versão atualizada do T-34 com blindagem reforçada e canhão de 85 mm.",
+    "specs": {
+        "Calibre": "Canhão de 85 mm; metralhadoras 7,62 mm",
+        "Uso histórico": "Tanque médio",
+        "Funcionamento (resumo)": "Tanque de esteiras com motor diesel, torre e suspensão Christie derivada.",
+        "Capacidade / carga": "Depende da variante",
+        "Peso / dimensão relevante": "≈ 32 t",
+        "Alcance / mobilidade": "Autonomia e velocidade variam por versão",
+        "Ano / modelo": "1944",
+        "Detalhe importante": "Nova torre e canhão de 85 mm aumentaram a capacidade de combate contra blindados alemães.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "KV-1",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1939",
+    "type": "Tanque pesado",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/8/8c/%D0%9A%D0%92-1_%D1%83_%D0%B4%D0%B8%D0%BE%D1%80%D0%B0%D0%BC%D1%8B_%C2%AB%D0%9F%D1%80%D0%BE%D1%80%D1%8B%D0%B2_%D0%B1%D0%BB%D0%BE%D0%BA%D0%B0%D0%B4%D1%8B_%D0%9B%D0%B5%D0%BD%D0%B8%D0%BD%D0%B3%D1%80%D0%B0%D0%B4%D0%B0%C2%BB._%D0%92%D0%B8%D0%B4_%D1%81%D0%BF%D0%B5%D1%80%D0%B5%D0%B4%D0%B8-%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%B0.JPG",
+    "description": "Tanque pesado com blindagem espessa, quase impenetrável no início da guerra.",
+    "specs": {
+        "Calibre": "Canhão de 76,2 mm; metralhadoras 7,62 mm",
+        "Uso histórico": "Tanque pesado",
+        "Funcionamento (resumo)": "Tanque de esteiras com blindagem espessa e motor diesel.",
+        "Capacidade / carga": "Depende da versão",
+        "Peso / dimensão relevante": "≈ 45 t",
+        "Alcance / mobilidade": "Mobilidade limitada pelo peso",
+        "Ano / modelo": "1939",
+        "Detalhe importante": "Sua blindagem surpreendeu as forças alemãs no início da invasão da URSS.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "IS-2 (Iosif Stalin)",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1943",
+    "type": "Tanque pesado",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/f/f7/%D0%9C%D0%B5%D0%BC%D0%BE%D1%80%D1%96%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9_%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81_%C2%AB%D0%A1%D0%B0%D0%BF%D1%83%D0%BD-%D0%B3%D0%BE%D1%80%D0%B0%C2%BB2.JPG",
+    "description": "Tanque pesado equipado com canhão de 122 mm para romper linhas fortificadas.",
+    "specs": {
+        "Calibre": "Canhão de 122 mm; metralhadoras 12,7/7,62 mm conforme versão",
+        "Uso histórico": "Tanque pesado / ruptura",
+        "Funcionamento (resumo)": "Tanque de esteiras com torre giratória e motor diesel.",
+        "Capacidade / carga": "Depende da variante",
+        "Peso / dimensão relevante": "≈ 46 t",
+        "Alcance / mobilidade": "Autonomia variável por versão",
+        "Ano / modelo": "1944",
+        "Detalhe importante": "Desenvolvido para enfrentar fortificações e os principais carros de combate alemães pesados.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "T-26",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1931",
+    "type": "Tanque leve",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/T-26_in_Kirovsk.JPG",
+    "description": "Tanque leve amplamente utilizado no início da invasão alemã (1941).",
+    "specs": {
+        "Calibre": "45 mm e metralhadoras 7,62 mm nas versões principais",
+        "Uso histórico": "Tanque leve de infantaria",
+        "Funcionamento (resumo)": "Tanque de esteiras com motor traseiro e torre para o armamento.",
+        "Capacidade / carga": "Depende da versão",
+        "Peso / dimensão relevante": "≈ 10 t",
+        "Alcance / mobilidade": "Autonomia variável",
+        "Ano / modelo": "1931–1941",
+        "Detalhe importante": "Um dos tanques soviéticos mais numerosos antes da guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "BT-7",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1935",
+    "type": "Tanque leve rápido",
+    "image": "https://upload.wikimedia.org/wikipedia/en/4/4e/Soviet_cavalry_tank_BT-7m.jpg",
+    "description": "Tanque leve de alta velocidade baseado na suspensão Christie.",
+    "specs": {
+        "Calibre": "45 mm e metralhadoras 7,62 mm",
+        "Uso histórico": "Tanque leve rápido / reconhecimento",
+        "Funcionamento (resumo)": "Tanque de esteiras baseado na suspensão Christie, com alta mobilidade.",
+        "Capacidade / carga": "Depende da versão",
+        "Peso / dimensão relevante": "≈ 14 t",
+        "Alcance / mobilidade": "Alta mobilidade para a época",
+        "Ano / modelo": "1935",
+        "Detalhe importante": "A família BT influenciou o desenvolvimento que levaria ao T-34.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "SU-76",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1942",
+    "type": "Canhão automotor",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Su76_nn.jpg",
+    "description": "Canhão automotor leve montado sobre chassi de tanque leve.",
+    "specs": {
+        "Calibre": "76,2 mm",
+        "Uso histórico": "Canhão automotor leve / apoio de infantaria",
+        "Funcionamento (resumo)": "Peça de artilharia instalada em chassi de veículo blindado sobre esteiras.",
+        "Capacidade / carga": "Depende da munição transportada",
+        "Peso / dimensão relevante": "≈ 11 t",
+        "Alcance / mobilidade": "Artilharia de curto/médio alcance",
+        "Ano / modelo": "1942",
+        "Detalhe importante": "Veículo relativamente leve e simples, muito usado em apoio direto à infantaria.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "SU-152",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1943",
+    "type": "Canhão automotor pesado",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/f/fb/11-Heavy_self_propelled_gun_su_152-LMW.jpg",
+    "description": "Destruidor de tanques pesado (apelidado de \\\"Zveroboy\\\" / Caçador de Feras).",
+    "specs": {
+        "Calibre": "152,4 mm",
+        "Uso histórico": "Canhão automotor pesado / apoio e antiblindagem",
+        "Funcionamento (resumo)": "Obuseiro/canhão pesado instalado em casamata blindada sobre chassi KV.",
+        "Capacidade / carga": "Munição limitada pelo grande calibre",
+        "Peso / dimensão relevante": "≈ 45,5 t",
+        "Alcance / mobilidade": "Artilharia de médio alcance",
+        "Ano / modelo": "1943",
+        "Detalhe importante": "Recebeu o apelido Zveroboy (Caçador de Feras) após combates contra blindados alemães.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "ISU-152",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1943",
+    "type": "Canhão automotor pesado",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/ISU-152%40Kubinka.jpg",
+    "description": "Atualização do SU-152 baseada no chassi do tanque IS.",
+    "specs": {
+        "Calibre": "152,4 mm",
+        "Uso histórico": "Canhão automotor pesado",
+        "Funcionamento (resumo)": "Arma pesada montada em casamata blindada sobre chassi da família IS.",
+        "Capacidade / carga": "Munição limitada pelo grande calibre",
+        "Peso / dimensão relevante": "≈ 46 t",
+        "Alcance / mobilidade": "Artilharia de médio alcance",
+        "Ano / modelo": "1943",
+        "Detalhe importante": "Substituiu progressivamente o SU-152 e teve múltiplas funções no fim da guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "BA-64",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1942",
+    "type": "Automóvel blindado",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/48/BA-64_in_Nizhny_Novgorod_Kremlin.JPG",
+    "description": "Automóvel blindado leve de tração 4x4 para reconhecimento.",
+    "specs": {
+        "Calibre": "Metralhadora 7,62 mm",
+        "Uso histórico": "Reconhecimento e ligação",
+        "Funcionamento (resumo)": "Automóvel 4×4 blindado com motor automotivo e torre leve.",
+        "Capacidade / carga": "Depende da munição",
+        "Peso / dimensão relevante": "≈ 2,4 t",
+        "Alcance / mobilidade": "Mobilidade rodoviária elevada",
+        "Ano / modelo": "1942",
+        "Detalhe importante": "Compacto e adequado para reconhecimento, patrulha e ligação.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "BA-10",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1938",
+    "type": "Carro blindado",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/d/dc/Ba10_parola_1.jpg",
+    "description": "Carro blindado pesado sobre rodas.",
+    "specs": {
+        "Calibre": "Canhão 45 mm e metralhadoras 7,62 mm",
+        "Uso histórico": "Reconhecimento / apoio blindado",
+        "Funcionamento (resumo)": "Carro blindado 6×4 com torre giratória.",
+        "Capacidade / carga": "Depende da munição",
+        "Peso / dimensão relevante": "≈ 5,1 t",
+        "Alcance / mobilidade": "Boa mobilidade em estrada",
+        "Ano / modelo": "1938",
+        "Detalhe importante": "Foi um dos principais carros blindados soviéticos no início da guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "BM-13 Katyusha",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1941",
+    "type": "Lança-foguetes múltiplo",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Katyusha_Rocket_Launcher_-_Artillery_Museum_-_St._Petersburg_-_Russia.jpg",
+    "description": "Lança-foguetes múltiplo montado em caminhão (conhecido como \\\"Órgão de Stalin\\\").",
+    "specs": {
+        "Calibre": "Foguetes de artilharia, geralmente 132 mm no BM-13",
+        "Uso histórico": "Artilharia de foguetes de saturação",
+        "Funcionamento (resumo)": "Guias/rails montados em caminhão lançam salvas de foguetes não guiados.",
+        "Capacidade / carga": "Varia; BM-13 clássico normalmente 16 foguetes",
+        "Peso / dimensão relevante": "Varia conforme caminhão e lançador",
+        "Alcance / mobilidade": "Longo alcance de artilharia",
+        "Ano / modelo": "1941",
+        "Detalhe importante": "O apelido Katyusha tornou-se associado à artilharia de foguetes soviética.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "GAZ-AA",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1932",
+    "type": "Caminhão utilitário",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/b/be/GAZ-AA_truck_4.jpg",
+    "description": "Caminhão utilitário leve de 1,5 tonelada baseado em projeto Ford.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Transporte logístico",
+        "Funcionamento (resumo)": "Caminhão 4×2 movido por motor a gasolina.",
+        "Capacidade / carga": "Carga de cerca de 1,5 t",
+        "Peso / dimensão relevante": "≈ 1,8 t vazio",
+        "Alcance / mobilidade": "Variável conforme carga e terreno",
+        "Ano / modelo": "1932",
+        "Detalhe importante": "Baseado no Ford Model AA e produzido em grande quantidade.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "ZiS-5",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1933",
+    "type": "Caminhão pesado",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/ZIS-5_truck_1933.JPG",
+    "description": "Caminhão pesado de 3 toneladas, pilar do transporte logístico do Exército Vermelho.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Transporte logístico pesado",
+        "Funcionamento (resumo)": "Caminhão 4×2 com motor a gasolina e chassi robusto.",
+        "Capacidade / carga": "Carga de cerca de 3 t",
+        "Peso / dimensão relevante": "≈ 3,1 t vazio",
+        "Alcance / mobilidade": "Variável",
+        "Ano / modelo": "1933",
+        "Detalhe importante": "Um dos caminhões mais importantes para a logística soviética.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "GAZ-67",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1943",
+    "type": "Jipe militar",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/2/27/Museum_of_Moscow_-_Proviantskie_Sklady_-_GAZ_67.jpg",
+    "description": "Jipe militar 4x4 leve de comando e patrulha.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Ligação, comando e reconhecimento",
+        "Funcionamento (resumo)": "Veículo leve 4×4 com motor a gasolina.",
+        "Capacidade / carga": "Pequena carga e pessoal",
+        "Peso / dimensão relevante": "≈ 1,3 t",
+        "Alcance / mobilidade": "Boa mobilidade fora de estrada",
+        "Ano / modelo": "1943",
+        "Detalhe importante": "Jipe soviético usado em funções de ligação e transporte leve.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Studebaker US6",
+    "category": "veiculos",
+    "country": "EUA / Lend-Lease",
+    "year": "1941",
+    "type": "Caminhão 6x6",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/2/28/Studebaker_US.jpg",
+    "description": "Caminhão 6x6 fornecido em grande quantidade pelos EUA via Lend-Lease.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Transporte logístico",
+        "Funcionamento (resumo)": "Caminhão 6×6 ou 6×4 com motor a gasolina, fornecido via Lend-Lease.",
+        "Capacidade / carga": "≈ 2,5–5 t conforme configuração",
+        "Peso / dimensão relevante": "Varia por versão",
+        "Alcance / mobilidade": "Alta mobilidade para transporte",
+        "Ano / modelo": "1941",
+        "Detalhe importante": "Teve enorme importância na logística soviética e serviu de base para diversos lançadores.",
+        "Origem": "EUA / Lend-Lease",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "M72 Motorcycle",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1941",
+    "type": "Motocicleta militar",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/MSPO14_M-72.jpg",
+    "description": "Motocicleta militar (cópia licenciada da BMW R71), frequentemente montada com sidecar.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Ligação, patrulha e transporte leve",
+        "Funcionamento (resumo)": "Motocicleta com motor boxer bicilíndrico e, em muitas unidades, sidecar.",
+        "Capacidade / carga": "2–3 ocupantes conforme configuração",
+        "Peso / dimensão relevante": "≈ 200 kg com sidecar",
+        "Alcance / mobilidade": "Mobilidade tática leve",
+        "Ano / modelo": "1941",
+        "Detalhe importante": "Produzida na URSS a partir de projeto relacionado à BMW R71.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Ilyushin Il-2 Sturmovik",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1941",
+    "type": "Aeronave de ataque",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/2/23/Il2_sturmovik.jpg",
+    "description": "Aeronave blindada de ataque ao solo.",
+    "specs": {
+        "Calibre": "Canhões de 20/23 mm e armamento adicional conforme versão",
+        "Uso histórico": "Ataque ao solo e apoio aproximado",
+        "Funcionamento (resumo)": "Monomotor blindado; piloto controla armamento e aeronave em ataques contra alvos terrestres.",
+        "Capacidade / carga": "Varia por versão",
+        "Peso / dimensão relevante": "≈ 4,5–6,3 t",
+        "Alcance / mobilidade": "Varia por versão",
+        "Ano / modelo": "1941",
+        "Detalhe importante": "Uma das aeronaves soviéticas mais produzidas da guerra.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Yakovlev Yak-3",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1944",
+    "type": "Caça",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/54/Yakolev_Yak-3_%28115450123%29_%2825073819848%29.jpg",
+    "description": "Caça de alta manobrabilidade para combate a baixa altitude.",
+    "specs": {
+        "Calibre": "Canhões de 20 mm e/ou 23 mm, conforme versão",
+        "Uso histórico": "Caça de superioridade aérea",
+        "Funcionamento (resumo)": "Caça monomotor de alta relação potência/peso e grande manobrabilidade.",
+        "Capacidade / carga": "Varia por versão",
+        "Peso / dimensão relevante": "≈ 2,6–2,8 t",
+        "Alcance / mobilidade": "Varia por versão",
+        "Ano / modelo": "1944",
+        "Detalhe importante": "Ficou conhecido por excelente desempenho em baixa e média altitude.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Tractor Komintern",
+    "category": "veiculos",
+    "country": "URSS",
+    "year": "1935",
+    "type": "Trator de artilharia",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Komintern_artillery_tractor.jpg",
+    "description": "Trator de esteiras pesado para reboque de artilharia.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Trator de artilharia e reboque pesado",
+        "Funcionamento (resumo)": "Veículo de esteiras movido por motor diesel para rebocar peças e transportar carga.",
+        "Capacidade / carga": "Carga/reboque pesado",
+        "Peso / dimensão relevante": "≈ 10,5 t",
+        "Alcance / mobilidade": "Mobilidade fora de estrada",
+        "Ano / modelo": "1934",
+        "Detalhe importante": "Importante para o transporte de artilharia pesada e equipamentos.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Capacete SSh-40",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "1940",
+    "type": "Capacete de aço",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/SSh-40_helmet.jpg",
+    "description": "Capacete de aço padrão do Exército Vermelho.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Proteção da cabeça",
+        "Funcionamento (resumo)": "Casco de aço com suspensão interna e jugular.",
+        "Capacidade / carga": "1 usuário",
+        "Peso / dimensão relevante": "≈ 1,3 kg",
+        "Alcance / mobilidade": "Proteção passiva",
+        "Ano / modelo": "1940",
+        "Detalhe importante": "Tornou-se o capacete soviético mais associado à Segunda Guerra Mundial.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Gymnastyorka",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Túnica militar",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/46/%D0%A2%D1%83%D1%80%D0%BA%D0%B5%D1%81%D1%82%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%BE%D1%84%D0%B8%D1%86%D0%B5%D1%80%2C_%D0%BA%D0%BE%D0%B3%D0%B4%D0%B0_%D0%BF%D0%BE%D1%85%D0%BE%D0%B4%D0%B0_%D0%BD%D0%B5_%D0%B1%D1%83%D0%B4%D0%B5%D1%82.jpg",
+    "description": "Túnica militar de algodão usada por soldados e oficiais.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Uniforme de campanha",
+        "Funcionamento (resumo)": "Túnica de tecido usada como camada principal do uniforme.",
+        "Capacidade / carga": "1 usuário",
+        "Peso / dimensão relevante": "Varia conforme tecido/tamanho",
+        "Alcance / mobilidade": "Proteção e identificação uniformológica",
+        "Ano / modelo": "1935–1943 (M35)",
+        "Detalhe importante": "A versão M35 foi muito usada no início da guerra; modelos posteriores modificaram gola e insígnias.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Muletes / Portyanki",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Envoltórios de pé",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/WW2_Soviet_Russian_Red_Army_summer_uniform_Senior_lieutenant_gymnastiorka_steel_helmet_PP_sh_41_machine_gun_Lofoten_Krigsminnemuseum_Norway_banner_2019_0229.jpg",
+    "description": "Tiras de pano dobradas ao redor dos pés, usadas no lugar de meias com as botas.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Proteção e conforto dos pés",
+        "Funcionamento (resumo)": "Tiras de tecido enroladas ao redor do pé dentro da bota.",
+        "Capacidade / carga": "1 par",
+        "Peso / dimensão relevante": "Muito baixo",
+        "Alcance / mobilidade": "Uso individual",
+        "Ano / modelo": "Uso tradicional",
+        "Detalhe importante": "Eram práticas, baratas e adequadas às botas militares da época.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Kirza Boots",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Botas militares",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/56/%D0%9A%D0%B8%D1%80%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5_%D1%81%D0%B0%D0%BF%D0%BE%D0%B3%D0%B8_%D1%80%D0%BE%D1%81%D1%81%D0%B8%D0%B9%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D1%81%D0%BE%D0%BB%D0%B4%D0%B0%D1%82%D0%B0.jpg",
+    "description": "Botas de cano alto feitas de couro sintético resistente (Kirza).",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Calçado militar",
+        "Funcionamento (resumo)": "Botas de cano alto com material sintético à base de lona impregnada.",
+        "Capacidade / carga": "1 par",
+        "Peso / dimensão relevante": "Varia conforme tamanho",
+        "Alcance / mobilidade": "Proteção contra lama, frio e desgaste",
+        "Ano / modelo": "Uso amplo na guerra",
+        "Detalhe importante": "A kirza ajudou a reduzir a dependência de couro natural.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Ushanka",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Chapéu de inverno",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/54/Gray-lambskin-ushanka-hat.jpg",
+    "description": "Chapéu de pele com abas para as orelhas para proteção contra o inverno rigoroso.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Proteção contra frio",
+        "Funcionamento (resumo)": "Gorro com abas que podem cobrir as orelhas e laterais do rosto.",
+        "Capacidade / carga": "1 usuário",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Proteção térmica",
+        "Ano / modelo": "Uso ampliado durante a guerra",
+        "Detalhe importante": "Tornou-se um dos símbolos mais conhecidos do vestuário soviético de inverno.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Vatnik / Telogreika",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Jaqueta acolchoada",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Vatnik_performance.jpg",
+    "description": "Jaqueta acolchoada de algodão para o frio.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Isolamento térmico",
+        "Funcionamento (resumo)": "Jaqueta acolchoada que retém ar entre camadas de tecido e enchimento.",
+        "Capacidade / carga": "1 usuário",
+        "Peso / dimensão relevante": "Baixo a moderado",
+        "Alcance / mobilidade": "Proteção térmica",
+        "Ano / modelo": "Uso amplo na guerra",
+        "Detalhe importante": "Muito importante para operações no inverno soviético.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Plash-Palatka",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Capa de chuva / abrigo",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/WWII_Soviet_Russian_Red_Army_RKKA_uniforms_etc_Telogreika_vatnik_fufaika_padded_quilted_winter_jacket_trousers_POW_in_Norway_Summer_gymnastyorka_mannequins_etc_Lofoten_Krigsminnemuseum_War_Museum_DSC01486.jpg",
+    "description": "Capa de chuva impermeável que também funcionava como parte de barraca.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Proteção contra chuva e abrigo",
+        "Funcionamento (resumo)": "Capa impermeável que também podia integrar abrigo individual/coletivo.",
+        "Capacidade / carga": "1 usuário / abrigo conforme montagem",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Proteção ambiental",
+        "Ano / modelo": "Uso durante a guerra",
+        "Detalhe importante": "Peça multifuncional de equipamento de campanha.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Shinel",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Capote de lã",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Grande_Arm%C3%A9e_-_Light_Infantry_Officers_in_Greatcoats.jpg",
+    "description": "Capote pesado de lã para a infantaria.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Casaco pesado de inverno",
+        "Funcionamento (resumo)": "Capote de lã usado sobre o uniforme para isolamento térmico.",
+        "Capacidade / carga": "1 usuário",
+        "Peso / dimensão relevante": "Moderado",
+        "Alcance / mobilidade": "Proteção térmica",
+        "Ano / modelo": "Uso anterior e durante a guerra",
+        "Detalhe importante": "Elemento tradicional do uniforme soviético, especialmente importante no frio.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Veshmeshok",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Mochila de lona",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/WW2_Soviet_Russian_Red_Army_summer_uniform_Senior_lieutenant_gymnastiorka_steel_helmet_PP_sh_41_machine_gun_Lofoten_Krigsminnemuseum_Norway_banner_2019_0229.jpg",
+    "description": "Mochila simples de lona com fechamento por cordão.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Transporte de pertences",
+        "Funcionamento (resumo)": "Saco simples de lona fechado por cordão e levado às costas.",
+        "Capacidade / carga": "Carga leve",
+        "Peso / dimensão relevante": "Muito baixo vazio",
+        "Alcance / mobilidade": "Transporte individual",
+        "Ano / modelo": "Uso durante a guerra",
+        "Detalhe importante": "Solução simples e econômica para o transporte do equipamento pessoal.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Pá MPL-50",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Pá de infantaria",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/2/22/%D0%9C%D0%B0%D0%BB%D0%B0%D1%8F_%D0%BF%D0%B5%D1%85%D0%BE%D1%82%D0%BD%D0%B0%D1%8F_%D0%BB%D0%BE%D0%BF%D0%B0%D1%82%D0%B0_1917_%D0%B8_1939_%D0%B3%D0%BE%D0%B4%D0%B0.JPG",
+    "description": "Pá portátil de infantaria usada tanto para cavar trincheiras quanto para combate corpo a corpo.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Ferramenta de campanha",
+        "Funcionamento (resumo)": "Pequena pá de infantaria usada para escavação e tarefas de campo.",
+        "Capacidade / carga": "1 unidade",
+        "Peso / dimensão relevante": "≈ 1,2 kg",
+        "Alcance / mobilidade": "Ferramenta manual",
+        "Ano / modelo": "MPL-50",
+        "Detalhe importante": "Era um equipamento essencial para cavar posições e realizar tarefas de campanha.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Porta-Carregador de PPSh-41",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Bolsa de munição",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/WWII_Soviet_Russian_Red_Army_RKKA_uniforms_etc_Summer_field_dress_Gymnastyorka_SSh-40_helmet_PPSh-41_submachine_gun_ammo_pouches_Sniper_Badge_Embroidered_banner_flag_German_Panzer-Licht_Tiger_tank_radio_Lofoten_Krigsminnemuseum_Norway.jpg",
+    "description": "Bolsa de lona rígida para transportar o tambor de 71 munições.",
+    "specs": {
+        "Calibre": "7,62×25 mm Tokarev",
+        "Uso histórico": "Transporte de carregadores/tambores",
+        "Funcionamento (resumo)": "Bolsa rígida ou semirrígida de lona destinada ao transporte organizado da munição.",
+        "Capacidade / carga": "Varia conforme modelo",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Equipamento de transporte",
+        "Ano / modelo": "Década de 1940",
+        "Detalhe importante": "Facilitava o transporte dos carregadores do PPSh-41.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Porta-Munição de Fuzil Mosin",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Porta-munição",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mosin_Nagant_M91.jpg",
+    "description": "Bolsas duplas de couro presas ao cinto para pentes de munição.",
+    "specs": {
+        "Calibre": "7,62×54 mmR",
+        "Uso histórico": "Transporte de munição",
+        "Funcionamento (resumo)": "Bolsas de couro ou lona presas ao equipamento individual.",
+        "Capacidade / carga": "Varia conforme modelo",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Equipamento de transporte",
+        "Ano / modelo": "Uso durante a guerra",
+        "Detalhe importante": "Projetado para manter os pentes/munição do Mosin disponíveis junto ao soldado.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Cantil de Alumínio (M1932)",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "1932",
+    "type": "Cantil individual",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/WW2_Soviet_Russian_Red_Army_summer_uniform_Senior_lieutenant_gymnastiorka_steel_helmet_PP_sh_41_machine_gun_Lofoten_Krigsminnemuseum_Norway_banner_2019_0229.jpg",
+    "description": "Cantil individual com capa de tecido protetora.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Hidratação",
+        "Funcionamento (resumo)": "Recipiente metálico com tampa e capa protetora de tecido.",
+        "Capacidade / carga": "Varia conforme modelo",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Uso individual",
+        "Ano / modelo": "M1932",
+        "Detalhe importante": "Elemento básico de equipamento pessoal para transporte de água.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Bolsa de Granadas",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Bolsa de equipamento",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/WWII_Soviet_Russian_Red_Army_RKKA_uniforms_etc_Summer_field_dress_Gymnastyorka_SSh-40_helmet_PPSh-41_submachine_gun_ammo_pouches_Sniper_Badge_Embroidered_banner_flag_German_Panzer-Licht_Tiger_tank_radio_Lofoten_Krigsminnemuseum_Norway.jpg",
+    "description": "Bolsa de lona dividida para carregar 2 a 4 granadas de mão.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Transporte de granadas",
+        "Funcionamento (resumo)": "Bolsa de lona compartimentada presa ao equipamento individual.",
+        "Capacidade / carga": "Varia conforme modelo",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Equipamento de transporte",
+        "Ano / modelo": "Uso durante a guerra",
+        "Detalhe importante": "Mantinha as granadas protegidas e organizadas no equipamento do combatente.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Baioneta do Mosin-Nagant",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Baioneta",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Mosin_Nagant_M91.jpg",
+    "description": "Baioneta de ponta de estilete fixada ao cano do fuzil.",
+    "specs": {
+        "Calibre": "Compatível com o sistema do Mosin-Nagant",
+        "Uso histórico": "Acessório do fuzil",
+        "Funcionamento (resumo)": "Peça fixada ao fuzil para funções históricas de combate aproximado e outras tarefas de campo.",
+        "Capacidade / carga": "1 unidade",
+        "Peso / dimensão relevante": "Varia conforme modelo",
+        "Alcance / mobilidade": "Uso de curta distância",
+        "Ano / modelo": "Modelos do período",
+        "Detalhe importante": "A versão de estilete é uma das características mais reconhecíveis do Mosin soviético.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Faca de Combate NR-40",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "1940",
+    "type": "Faca militar",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Knife_nr40_ussr.jpg",
+    "description": "Faca militar fornecida a tropas de assalto e batedores.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Faca militar / ferramenta de campo",
+        "Funcionamento (resumo)": "Lâmina fixa destinada a tarefas de campanha e uso militar.",
+        "Capacidade / carga": "1 unidade",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Uso manual",
+        "Ano / modelo": "1940",
+        "Detalhe importante": "Associada especialmente a tropas de reconhecimento e assalto.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Mapnik (Bolsa de Cartografia)",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Segunda Guerra Mundial",
+    "type": "Bolsa de mapas",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Case%2C_map_%28AM_2003.104.4-4%29.jpg",
+    "description": "Pasta de couro ou lona reforçada usada por oficiais para mapas e documentos.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Transporte de mapas e documentos",
+        "Funcionamento (resumo)": "Pasta/bolsa reforçada com compartimentos para materiais cartográficos.",
+        "Capacidade / carga": "Mapas e documentos",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Equipamento de comando",
+        "Ano / modelo": "Período soviético",
+        "Detalhe importante": "Ajudava oficiais e especialistas a transportar material de navegação e planejamento.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / Wikipedia"
+    }
+},
+{
+    "name": "Cóquetel Molotov",
+    "category": "armas",
+    "country": "URSS / uso internacional",
+    "year": "1941–1945",
+    "type": "Dispositivo incendiário improvisado",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Molotov_cocktail_%28Soviet_version%29.png",
+    "description": "Garrafa incendiária improvisada, empregada em diferentes frentes e especialmente em situações de combate urbano.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Dispositivo incendiário improvisado",
+        "Funcionamento (resumo)": "Recipiente contendo líquido inflamável que, quando acionado, produz um foco de incêndio.",
+        "Capacidade / carga": "Variável conforme o recipiente",
+        "Peso / dimensão relevante": "Variável",
+        "Alcance / mobilidade": "Curto alcance",
+        "Ano / modelo": "Uso amplo na Segunda Guerra Mundial",
+        "Detalhe importante": "A imagem de referência corresponde a uma versão soviética documentada em material de 1941.",
+        "Origem": "URSS / uso internacional",
+        "Fonte da imagem": "Wikimedia Commons"
+    }
+},
+{
+    "name": "Mascara de Gás BS-T5",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "Período soviético",
+    "type": "Máscara de proteção respiratória",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Soviet_Gas_Mask.jpg",
+    "description": "Máscara de gás com bolsa de transporte, integrante do equipamento de proteção respiratória soviético.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Proteção respiratória",
+        "Funcionamento (resumo)": "A máscara cria uma vedação facial e utiliza filtro apropriado para reduzir a exposição a determinados contaminantes do ar.",
+        "Capacidade / carga": "1 usuário",
+        "Peso / dimensão relevante": "Varia conforme conjunto",
+        "Alcance / mobilidade": "Proteção individual",
+        "Ano / modelo": "Período soviético",
+        "Detalhe importante": "Bolsas de máscaras de gás também foram reutilizadas para transportar outros objetos em condições de campanha.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / imagem de referência"
+    }
+},
+{
+    "name": "Limbro de Cinto Militar (RKKA)",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "1930–1945",
+    "type": "Cinto de equipamento",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Soviet_belt_RKKA.jpg",
+    "description": "Cinto militar de couro ou lona pesada utilizado para sustentar parte do equipamento individual do soldado.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Fixação e sustentação do equipamento individual",
+        "Funcionamento (resumo)": "Faixa estrutural com fivela que permite prender e distribuir bolsas e acessórios do equipamento.",
+        "Capacidade / carga": "Depende dos acessórios acoplados",
+        "Peso / dimensão relevante": "Baixo",
+        "Alcance / mobilidade": "Equipamento individual",
+        "Ano / modelo": "Varia conforme padrão RKKA",
+        "Detalhe importante": "Era parte importante do conjunto de equipamento usado junto com bolsas de munição e granadas.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons / imagem de referência"
+    }
+},
+{
+    "name": "Adiva (Pilotka)",
+    "category": "equipamentos",
+    "country": "URSS",
+    "year": "1930–1945",
+    "type": "Gorro militar de campanha",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/5d/WW2_Soviet_Russian_Red_Army_uniform_caps_%28pilotka_budenovka_tank_helmet_%29_machine_gun_Lofoten_Krigsminnemuseum_Norway_2019_0296.jpg",
+    "description": "Gorro de pano dobrável usado como cobertura de cabeça no uniforme de serviço diário do Exército Vermelho.",
+    "specs": {
+        "Calibre": "Não se aplica",
+        "Uso histórico": "Cobertura de cabeça e parte do uniforme",
+        "Funcionamento (resumo)": "Peça têxtil dobrável usada diretamente na cabeça e sob o capacete em determinadas situações.",
+        "Capacidade / carga": "1 usuário",
+        "Peso / dimensão relevante": "Muito baixo",
+        "Alcance / mobilidade": "Uso individual",
+        "Ano / modelo": "Uso amplo antes e durante a Segunda Guerra Mundial",
+        "Detalhe importante": "A pilotka é um dos elementos mais reconhecíveis da aparência do soldado soviético.",
+        "Origem": "URSS",
+        "Fonte da imagem": "Wikimedia Commons"
+    }
+}
+];
+
+const grid = document.getElementById("grid");
+const search = document.getElementById("search");
+const category = document.getElementById("category");
+const count = document.getElementById("count");
+
+function render() {
+    const query = search.value.toLowerCase();
+    const selected = category.value;
+    const filtered = equipment.filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(query) ||
+            item.country.toLowerCase().includes(query) ||
+            item.type.toLowerCase().includes(query) ||
+            item.description.toLowerCase().includes(query);
+        const matchesCategory = selected === "all" || item.category === selected;
+        return matchesSearch && matchesCategory;
+    });
+    count.textContent = `${filtered.length} registro${filtered.length !== 1 ? "s" : ""}`;
+    grid.innerHTML = "";
+    if (!filtered.length) {
+        grid.innerHTML = `<div style="grid-column:1/-1;padding:50px;text-align:center;color:#7d877f;border:1px solid #29312b;">Nenhum registro encontrado.</div>`;
+        return;
+    }
+    filtered.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+            <div class="card-image" style="--image:url('${item.image}')">
+                <span class="category">${formatCategory(item.category)}</span>
+            </div>
+            <div class="card-body">
+                <h4>${item.name}</h4>
+                <div class="country">${item.country} · ${item.year}</div>
+                <div class="stats">
+                    <div class="stat"><small>Tipo</small><strong>${item.type}</strong></div>
+                    <div class="stat"><small>Origem</small><strong>${item.country}</strong></div>
+                </div>
+                <p class="details">${item.description}</p>
+            </div>`;
+        card.addEventListener("click", () => openModal(item));
+        grid.appendChild(card);
+    });
+}
+
+function formatCategory(category) {
+    return { armas:"Arma histórica", veiculos:"Veículo", equipamentos:"Equipamento" }[category] || category;
+}
+
+function openModal(item) {
+    document.getElementById("modalTitle").textContent = item.name;
+    document.getElementById("modalCountry").textContent = `${item.country} · ${item.year} · ${item.type}`;
+    document.getElementById("modalDescription").textContent = item.description;
+    document.getElementById("modalTop").style = `--modal-image:url('${item.image}')`;
+    const technical = document.getElementById("technical");
+    technical.innerHTML = "";
+    Object.entries(item.specs).forEach(([key,value]) => {
+        const div = document.createElement("div");
+        div.innerHTML = `<span>${key}</span><strong>${value}</strong>`;
+        technical.appendChild(div);
+    });
+    document.getElementById("modal").classList.add("active");
+}
+function closeModal() { document.getElementById("modal").classList.remove("active"); }
+search.addEventListener("input", render);
+category.addEventListener("change", render);
+document.getElementById("modal").addEventListener("click", event => { if (event.target.id === "modal") closeModal(); });
+document.addEventListener("keydown", event => { if (event.key === "Escape") closeModal(); });
+render();
+</script>
+
+</body>
+</html>
